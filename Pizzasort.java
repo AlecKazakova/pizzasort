@@ -1,9 +1,10 @@
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import java.lang.Math;
 
 public class Pizzasort {
-  private static final int ARRAY_LENGTH = 11;
+  private static final int ARRAY_LENGTH = 10;
 
   public static void main(String[] args) {
     new Pizzasort().checkPermutations();
@@ -42,21 +43,45 @@ public class Pizzasort {
       java.util.Collections.swap(arr, k, i);
     }
     if (k == arr.size() -1){
-      checkPermutation(arr.toArray(new Integer[ARRAY_LENGTH]));
+      permutations++;
+      Integer[] sorted = alecSolution(arr.toArray(new Integer[ARRAY_LENGTH]));
+
+      for (int i = 0; i < ARRAY_LENGTH; i++) {
+        if (sorted[i] != ARRAY_LENGTH-i-1) {
+          timesWrong[i]++;
+        }
+      }
     }
   }
 
-  private void checkPermutation(Integer[] permutation) {
-    permutations++;
-    Arrays.sort(permutation, (left, right) -> {
+  private Integer[] alecSolution(Integer[] permutation) {
+    Integer[] promoted = new Integer[ARRAY_LENGTH/2];
+    Integer[] losers = new Integer[ARRAY_LENGTH/2];
+    for (int i = 0; i < ARRAY_LENGTH; i+=2) {
+      comparisons++;
+      if (permutation[i] > permutation[i+1]) {
+        promoted[i/2] = permutation[i];
+        losers[i/2] = permutation[i+1];
+      } else {
+        promoted[i/2] = permutation[i+1];
+        losers[i/2] = permutation[i];
+      }
+    }
+
+    Arrays.sort(promoted, (left, right) -> {
       comparisons++;
       return right - left;
     });
 
-    for (int i = 0; i < ARRAY_LENGTH; i++) {
-      if (permutation[i] != ARRAY_LENGTH-i-1) {
-        timesWrong[i]++;
-      }
-    }
+    List<Integer> result = new ArrayList<>(Arrays.asList(promoted));
+    result.addAll(Arrays.asList(losers));
+    return result.toArray(permutation);
+  }
+
+  private void checkPermutation(Integer[] permutation) {
+    Arrays.sort(permutation, (left, right) -> {
+      comparisons++;
+      return right - left;
+    });
   }
 }
