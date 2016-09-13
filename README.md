@@ -16,3 +16,9 @@ Isafan Ofpizza, you can immediately tell which is the better pizza of any two pi
 100% accuracy, but doing so will cost you 200$ total (100$ for each pizza). What is the
 cheapest way you can rank all the pizzas of New York such that they are accurate enough
 to convince your readers?
+
+In other words:
+
+Given a comparator that takes O(1) time to run, come up with a O(n) sorting algorithm
+which gets the ith position correct (n - (i - 1))/n of the time given all permutations
+of the input list. 
