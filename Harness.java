@@ -26,6 +26,7 @@ public class Harness {
   private final Solution solution;
   private final int arrayLength;
   private final int[] timesWrong;
+  private final long[] sumOfSquaredDifferences;
   private final List<Integer> originals;
 
   private int comparisons;
@@ -40,6 +41,7 @@ public class Harness {
     this.solution = solution;
     this.arrayLength = arrayLength;
     this.timesWrong = new int[arrayLength];
+    this.sumOfSquaredDifferences = new long[arrayLength];
 
     originals = new ArrayList<>(arrayLength);
     for (int i = 0; i < arrayLength; i++) {
@@ -78,8 +80,12 @@ public class Harness {
     List<Integer> sorted = solution.pizzaSort(new ArrayList<>(permutation), comparator);
 
     for (int i = 0; i < permutation.size(); i++) {
-      if (sorted.get(i) != permutation.size()-i-1) {
+      int actual = sorted.get(i);
+      int expected = arrayLength - i - 1;
+      if (actual != expected) {
+        int difference = actual - expected;
         timesWrong[i]++;
+        sumOfSquaredDifferences[i] += (difference * difference);
       }
     }
   }
@@ -87,8 +93,9 @@ public class Harness {
   private void printReport() {
     System.out.printf("%s%n", solution.getClass().getSimpleName());
     for (int i = 0; i < arrayLength; i++) {
-      System.out.printf("Got %dth place wrong %.2f%% of the time%n",
-          i, ((double)timesWrong[i]/permutations)*100);
+      double standardDeviation = Math.sqrt((double) sumOfSquaredDifferences[i] / permutations);
+      System.out.printf("Got %dth place wrong %.2f%% of the time (σ=%.2f)%n",
+          i, ((double)timesWrong[i]/permutations)*100, standardDeviation);
     }
     System.out.printf("%.2f comparisons per element (%d total comparisons)%n",
         ((double) comparisons/permutations/arrayLength), comparisons);
