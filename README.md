@@ -2,6 +2,8 @@
 
 ### UPDATE 13/03/17 UPDATE I'LL INCLUDE A DIP
 
+### UPDATE 31/01/18 PLEASE SOLVE THE PIZZA IS NOW STUFFED CRUST AND ALSO CRAZY BREAD INCLUDED IN REWARD
+
 # pizzasort
 
 You are Isafan Ofpizza, the most influential pizza critic in the entire world, and have
